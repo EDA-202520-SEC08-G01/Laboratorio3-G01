@@ -29,4 +29,8 @@ def size(list):
     return list["size"]
 
 def first_element(list):
-    return list["first"]
+    if not(list["first"] == None):
+        return list["first"]
+    else:
+        return None
+    
