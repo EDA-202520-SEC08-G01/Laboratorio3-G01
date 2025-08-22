@@ -24,6 +24,11 @@
  * Dario Correal
  """
 
+# TODO Importar la librería para el manejo de listas
+from DataStructures.List import array_list as lt
+from DataStructures.List import single_linked_list as sll
+
+
 import csv
 import os
 import time
