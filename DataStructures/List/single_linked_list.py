@@ -187,4 +187,4 @@ def sub_list(list, pos, num_elements):
     sub_list["first"] = ini_lista
     sub_list["last"] = list["last"]
     sub_list["size"] = num_elements
-    return
+    return sub_list
