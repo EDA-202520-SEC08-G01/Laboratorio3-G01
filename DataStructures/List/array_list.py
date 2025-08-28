@@ -70,9 +70,8 @@ def insert_element(my_list, pos, element):
         return "IndexError: list index out of range"
     else:
         my_list["elements"].insert(pos, element)
-        my_list["size"] += 1
-        
-    return my_list
+        my_list["size"] += 1 
+        return my_list
 
 def change_info(my_list, pos, new_info):
     if pos < 0 or pos >= my_list["size"]:
@@ -104,5 +103,5 @@ def sub_list(my_list, pos_i, num_elements):
         "elements": sub_elements
     }
     
-
+    
     
