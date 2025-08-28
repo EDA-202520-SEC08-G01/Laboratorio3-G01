@@ -40,3 +40,25 @@ def first_element(my_list):
         return my_list["elements"][0]
     else:
         return None
+
+def last_element(my_list):
+    if my_list["size"] > 0:
+        return my_list["elements"][-1]
+    else:
+        return None
+
+def remove_first(my_list):
+    if my_list["size"] > 0:
+        my_list["elements"].pop(0)
+        my_list["size"] -= 1
+
+def remove_last(my_list):
+    if my_list["size"] > 0:
+        my_list["elements"].pop()
+        my_list["size"] -= 1
+
+def insert_element(my_list, index, element):
+    if index >= 0 and index <= my_list["size"]:
+        my_list["elements"].insert(index, element)
+        my_list["size"] += 1
+    
