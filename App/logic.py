@@ -59,8 +59,11 @@ def new_logic():
 
     catalog['books'] = lt.new_list()
     # TODO Implemente la inicialización de la lista de autores
+    catalog['authors'] = lt.new_list()
     # TODO Implemente la inicialización de la lista de tags
+    catalog['tags'] = lt.new_list()
     # TODO Implemente la inicialización de la lista de asociación de libros y tags
+    catalog['book_tags'] = lt.new_list()
     return catalog
 
 
@@ -75,11 +78,13 @@ def load_data(catalog):
     start_time = getTime()
     books, authors = load_books(catalog)
     # TODO Complete la carga de los tags
+    tags = load_tags(catalog)
     # TODO Complete la carga de los book_tags
+    book_tags = load_books_tags(catalog)
     # TODO Añada los parámetros de retoro necesarios
     end_time = getTime()
     tiempo_transcurrido = deltaTime(end_time, start_time)
-    return books, authors, tiempo_transcurrido
+    return books, authors, tags, book_tags, tiempo_transcurrido
 
 
 
@@ -105,6 +110,11 @@ def load_tags(catalog):
     :return: El número de tags cargados
     """
     # TODO Implementar la carga de los tags
+    tagsfile = data_dir + "GoodReads/books-medium.csv"
+    input_file = csv.DictReader(open(tagsfile, encoding="utf-8"))
+    for tag in input_file:
+        add_tag(catalog, tag)
+    return tag_size(catalog)
     pass
 
 
@@ -117,6 +127,11 @@ def load_books_tags(catalog):
     :return: El número de book_tags cargados
     """
     # TODO Implementar la carga de los book_tags
+    bookstagsfile = data_dir + "GoodReads/books-medium.csv"
+    input_file = csv.DictReader(open(bookstagsfile, encoding="utf-8"))
+    for bt in input_file:
+        add_book_tag(catalog,bt) 
+    return book_tag_size(catalog)
     pass
 
 
@@ -145,6 +160,16 @@ def get_best_book(catalog):
     start_time = getTime()
     best_book = None
     # TODO Implementar la función del mejor libro por rating
+    max_rating = float("-inf")
+    for i in range(0, lt.size(catalog["books"])):
+        book = lt.get_element(catalog["books"], i)
+        try:
+            r = float(book.get("average_rating", 0))
+        except:
+            r = 0.0
+        if r >= max_rating:
+            max_rating = r
+            best_book = book
     end_time = getTime()
     tiempo_transcurrido = deltaTime(end_time, start_time)
     return best_book, tiempo_transcurrido
@@ -162,6 +187,19 @@ def count_books_by_tag(catalog, tag):
     start_time = getTime()
     resultado = 0
     # TODO Implementar la función de conteo de libros por tag
+    tag_id = None
+    for i in range(0, lt.size(catalog["tags"])):
+        tg = lt.get_element(catalog["tags"], i)
+        if tg["name"].lower() == tag.lower():
+            tag_id = tg["tag_id"]
+            break
+    if tag_id is not None:
+        cantidad = set()
+        for i in range(0, lt.size(catalog["book_tags"])):
+            bt = lt.get_element(catalog["book_tags"], i)
+            if str(bt["tag_id"]) == str(tag_id):
+                cantidad.add(bt["book_id"])
+        resultado = len(cantidad)
     end_time = getTime()
     tiempo_transcurrido = deltaTime(end_time, start_time)
     return resultado, tiempo_transcurrido
@@ -260,6 +298,7 @@ def author_size(catalog):
     :return: El número de autores en el catálogo
     """
     # TODO Implementar la función de tamaño de autores
+    return lt.size(catalog["authors"])
     pass
 
 
@@ -272,6 +311,7 @@ def tag_size(catalog):
     :return: El número de tags en el catálogo
     """
     # TODO Implementar la función de tamaño de tags
+    return lt.size(catalog["tags"])
     pass
 
 
@@ -284,6 +324,7 @@ def book_tag_size(catalog):
     :return: El número de book_tags en el catálogo
     """
     # TODO Implementar la función de tamaño de book_tags
+    return lt.size(catalog["book_tags"])
     pass
 
 
